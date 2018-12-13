@@ -1,0 +1,3151 @@
+- name: "MEDIUM | V-63329 | AUDIT | Users will be notified if a web-based program attempts to install software."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\Installer /v SafeForScripting
+  register: install_notification_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in install_notification_audit.stderr and install_notification_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63329
+
+- name: "MEDIUM | V-63329 | PATCH | Users will be notified if a web-based program attempts to install software."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\Installer'
+      value: SafeForScripting
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63329
+
+- name: "MEDIUM | V-63333 | AUDIT | Automatically signing in the last interactive user after a system-initiated restart must be disabled."
+  win_command: reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\ /v DisableAutomaticRestartSignOn
+  register: automatic_restart_signin_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in automatic_restart_signin_audit.stderr and automatic_restart_signin_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63333
+
+- name: "MEDIUM | V-63333 | PATCH | Automatically signing in the last interactive user after a system-initiated restart must be disabled."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\'
+      value: DontDisplayNetworkSelectionUI
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63333
+
+- name: "MEDIUM | V-63339 | AUDIT | The Windows Remote Management (WinRM) client must not allow unencrypted traffic."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\WinRM\Client\ /v AllowUnencryptedTraffic
+  register: winrm_unencrypted_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in winrm_unencrypted_audit.stderr and winrm_unencrypted_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63339
+
+- name: "MEDIUM | V-63339 | PATCH | The Windows Remote Management (WinRM) client must not allow unencrypted traffic."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\WinRM\Client\'
+      value: AllowUnencryptedTraffic
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63339
+      
+- name: "MEDIUM | V-63341 | AUDIT | The Windows Remote Management (WinRM) client must not use Digest authentication."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\WinRM\Client\ /v AllowDigest
+  register: winrm_digest_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in winrm_digest_audit.stderr and winrm_digest_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63341
+
+- name: "MEDIUM | V-63341 | PATCH | The Windows Remote Management (WinRM) client must not use Digest authentication."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\WinRM\Client\'
+      value: AllowDigest
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63341
+      
+- name: "MEDIUM | V-63341 | AUDIT | The Windows Remote Management (WinRM) service must not allow unencrypted traffic."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\WinRM\Service\ /v AllowUnencryptedTraffic
+  register: winrm_unencrypted_traffic_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in winrm_unencrypted_traffic_audit.stderr and winrm_unencrypted_traffic_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63341
+
+- name: "MEDIUM | V-63341 | PATCH | The Windows Remote Management (WinRM) service must not allow unencrypted traffic."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service\'
+      value: AllowUnencryptedTraffic
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63341
+
+- name: "MEDIUM | V-63373 | AUDIT | Permissions for system drive root directory must conform to minimum requirements."
+  win_shell: Get-Acl -PATH 'C:' | Format-List
+  register: root_permissions_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "path_not_found not in root_permissions_audit.stderr and root_permissions_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63373
+
+- name: "MEDIUM | V-63373 | AUDIT | Permissions for system drive root directory must conform to minimum requirements."
+  win_shell: (Get-Acl -PATH 'C:').Access.IdentityReference.Value
+  register: root_permissions_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "path_not_found not in root_permissions_audit.stderr and root_permissions_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63373
+
+- name: "MEDIUM | V-63373 | AUDIT | Permissions for system drive root directory must conform to minimum requirements."
+  win_shell: Get-Acl -PATH 'C:' | Format-List
+  register: root_permissions_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "path_not_found not in root_permissions_audit.stderr and root_permissions_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63373
+
+- name: "MEDIUM | V-63373 | AUDIT | Permissions for system drive root directory must conform to minimum requirements."
+  win_shell: (Get-Acl -PATH 'C:').Access.IdentityReference.Value
+  register: root_permissions_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "path_not_found not in root_permissions_audit.stderr and root_permissions_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63373
+
+###################### block start - conditionally apply patches if paths exist #########################
+
+- block:
+    - name: "REMOVAL MEDIUM | V-63373 | PATCH | Permissions for system drive root directory must conform to minimum requirements."
+      win_acl:
+          path: 'C:'
+          user: '{{ item[0] | replace("APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES" , "ALL APPLICATION PACKAGES")}}'
+          rights: 'FullControl'
+          type: '{{ item[1] }}'
+          state: 'absent'
+      when: "not('SYSTEM' in item[0] or 'Administrators' in item[0] or 'CREATOR OWNER' in item[0]) or 'allow' not in item[1]"
+      with_nested:
+          - '{{ root_permissions_audit.stdout_lines }}'
+          - [ allow, deny ]
+   
+    - name: "MEDIUM | V-63373 | PATCH | Permissions for system drive root directory must conform to minimum requirements."
+      win_acl:
+          path: 'C:'
+          user: '{{ item.user }}'
+          rights: '{{ item.rights }}'
+          type: 'allow'
+          state: 'present'
+          inherit: '{{ item.inherit }}'
+          propagation: '{{ item.propagation }}'
+      with_items:
+          - user: 'NT AUTHORITY\SYSTEM'
+            rights: 'FullControl'
+            inherit: 'ContainerInherit,ObjectInherit'
+            propagation: 'None'
+          - user: 'BUILTIN\Administrators'
+            rights: 'FullControl'
+            inherit: 'ContainerInherit,ObjectInherit'
+            propagation: 'None'
+          - user: 'BUILTIN\Users'
+            rights: 'ReadAndExecute'
+            inherit: 'ContainerInherit,ObjectInherit'
+            propagation: 'None'
+          - user: 'BUILTIN\Users'
+            rights: 'AppendData'
+            inherit: 'ContainerInherit'
+            propagation: 'None'
+          - user: 'BUILTIN\Users'
+            rights: 'CreateFiles,WriteData'
+            inherit: 'ContainerInherit'
+            propagation: 'InheritOnly'
+          - user: 'CREATOR OWNER'
+            rights: 'FullControl'
+            inherit: 'ContainerInherit,ObjectInherit'
+            propagation: 'InheritOnly'
+   
+    - name: "MEDIUM | V-63373 | PATCH | Permissions for system drive root directory must conform to minimum requirements."
+      win_acl_inheritance:
+          path: 'C:'
+          state: 'absent'
+   
+  when: "path_not_found not in root_permissions_audit.stderr and root_permissions_audit"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63373
+######################################### block end #####################################################      
+      
+- name: "MEDIUM | V-63375 | AUDIT | The Windows Remote Management (WinRM) service must not store RunAs credentials."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\WinRM\Service\ /v DisableRunAs
+  register: winrm_store_runas_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in winrm_store_runas_audit.stderr and winrm_store_runas_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63375
+
+- name: "MEDIUM | V-63375 | PATCH | The Windows Remote Management (WinRM) service must not store RunAs credentials."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service\'
+      value: DisableRunAs
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63375
+      
+- name: "MEDIUM | V-663811 | AUDIT | The Simple TCP/IP Services service will be disabled."
+  win_shell: Get-Service -name simptcp
+  register: simtcp_service_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "simtcp_service_audit.stderr and service_not_found not in simtcp_service_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-663811
+
+- name: "MEDIUM | V-663811 | PATCH | The Simple TCP/IP Services service will be disabled."
+  win_service:
+      name: simptcp
+      start_mode: disabled
+      state: stopped
+  when: not simtcp_service_audit.stderr
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-663811
+      
+- name: "MEDIUM | V-63393 | AUDIT | Software certificate installation files will be removed from a system."
+  win_command: wmic logicaldisk where drivetype=3 get name
+  register: list_of_drives_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63393
+
+- name: "MEDIUM | V-63393 | AUDIT | Software certificate installation files will be removed from a system."
+  win_shell: 'Get-ChildItem {{ item[0]|trim }}\ -Filter {{ item[1] }} -recurse -ErrorAction SilentlyContinue'
+  register: certificate_installation_files_audit
+  check_mode: no
+  changed_when: no
+  when: "'Name' not in item[0] and item[0]"
+  with_nested: 
+      - "{{ list_of_drives_audit.stdout_lines }}"
+      - [ "*.p12", "*.pfx" ]
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63393
+      
+- name: "MEDIUM | V-63405 | AUDIT | Windows 10 account lockout duration must be configured to 15 minutes or greater."
+  debug: var=secedit_rules.System_Access.LockoutDuration
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63405
+
+- name: "MEDIUM | V-63405 | PATCH | Windows 10 account lockout duration must be configured to 15 minutes or greater."
+  win_secedit: 
+      category: 'System Access'
+      key: LockoutDuration
+      value: 15
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63405
+      
+- name: "MEDIUM | V-63409 | AUDIT | The number of allowed bad logon attempts must be configured to 3 or less."
+  win_shell: net accounts | select-string -Pattern "threshold"
+  register: lockout_threshold_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63409
+
+- name: "MEDIUM | V-63409 | PATCH | The number of allowed bad logon attempts must be configured to 3 or less."
+  win_shell: net accounts /lockoutthreshold:3
+  when: "'3' not in lockout_threshold_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63409
+      
+- name: "MEDIUM | V-63413 | AUDIT | The period of time before the bad logon counter is reset must be configured to 15 minutes."
+  debug: var=secedit_rules.System_Access.ResetLockoutCount
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63413
+
+- name: "MEDIUM | V-63413 | PATCH | The period of time before the bad logon counter is reset must be configured to 15 minutes."
+  win_secedit: 
+      category: 'System Access'
+      key: ResetLockoutCount
+      value: 15
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63413
+
+- name: "MEDIUM | V-63415 | AUDIT | The password history must be configured to 24 passwords remembered."
+  debug: var=secedit_rules.System_Access.PasswordHistorySize
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63415
+
+- name: "MEDIUM | V-63415 | PATCH | The password history must be configured to 24 passwords remembered."
+  win_secedit:
+      category: 'System Access'
+      key: PasswordHistorySize
+      value: '12'
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63415
+
+- name: "MEDIUM | V-63419 | AUDIT | The maximum password age must be configured to 60 days or less."
+  win_shell: net accounts | Select-String -Pattern "Max"
+  register: max_password_age_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63419
+
+- name: "MEDIUM | V-63419 | PATCH | The maximum password age must be configured to 60 days or less."
+  win_command: net accounts /maxpwage:60
+  when: "'60' not in max_password_age_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63419
+      
+- name: "MEDIUM | V-63421 | AUDIT | The minimum password age must be configured to at least 1 day."
+  debug: var=secedit_rules.System_Access.MinimumPasswordAge
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63421
+
+- name: "MEDIUM | V-63421 | PATCH | The minimum password age must be configured to at least 1 day."
+  win_command: net accounts /minpwage:0
+  when: secedit_rules.System_Access.MinimumPasswordAge != "0"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63421
+
+- name: "MEDIUM | V-63423 | AUDIT | Passwords must, at a minimum, be 14 characters."
+  debug: var=secedit_rules.System_Access.MinimumPasswordLength
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63423
+
+- name: "MEDIUM | V-63423 | PATCH | Passwords must, at a minimum, be 14 characters."
+  win_secedit: 
+      category: 'System Access'
+      key: MinimumPasswordLength
+      value: '14'
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63423
+      
+
+- name: "MEDIUM | V-63427 | AUDIT | The built-in Microsoft password complexity filter must be enabled."
+  debug: var=secedit_rules.System_Access.PasswordComplexity
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63427
+
+- name: "MEDIUM | V-63427 | PATCH | The built-in Microsoft password complexity filter must be enabled."
+  win_secedit:
+      category: 'System Access'
+      key: PasswordComplexity
+      value: '1'
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63427
+      
+- name: "MEDIUM | V-63431 | AUDIT | The system will be configured to audit 'Account Logon -> Credential Validation' failures."
+  win_shell: AuditPol /get /subcategory:"Credential Validation"
+  register: failure_cred_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63431
+
+- name: "MEDIUM | V-63431 | PATCH | The system will be configured to audit 'Account Logon -> Credential Validation' failures."
+  win_shell: AuditPol /set /subcategory:"Credential Validation" /failure:enable
+  when: "'Failure' not in failure_cred_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63431
+      
+- name: "MEDIUM | V-63435 | AUDIT | The system will be configured to audit 'Account Logon -> Credential Validation' successes."
+  win_shell: AuditPol /get /subcategory:"Credential Validation"
+  register: success_cred_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63435
+
+- name: "MEDIUM | V-63435 | PATCH | The system will be configured to audit 'Account Logon -> Credential Validation' successes."
+  win_shell: AuditPol /set /subcategory:"Credential Validation" /success:enable
+  when: "'Success' not in success_cred_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63435
+      
+- name: "MEDIUM | V-63441 | AUDIT | The system will be configured to audit 'Account Management -> Other Account Management Events' successes."
+  win_shell: AuditPol /get /subcategory:"Other Account Management Events"
+  register: success_other_account_management_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63441
+
+- name: "MEDIUM | V-63441 | PATCH | The system will be configured to audit 'Account Management -> Other Account Management Events' successes."
+  win_shell: AuditPol /set /subcategory:"Other Account Management Events" /success:enable
+  when: "'Success' not in success_other_account_management_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63441
+      
+- name: "MEDIUM | V-63445 | AUDIT | The system will be configured to audit 'Account Management -> Security Group Management' successes."
+  win_shell: AuditPol /get /subcategory:"Security Group Management"
+  register: success_security_group_management_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63445
+
+- name: "MEDIUM | V-63445 | PATCH | The system will be configured to audit 'Account Management -> Security Group Management' successes."
+  win_shell: AuditPol /set /subcategory:"Security Group Management" /success:enable
+  when: "'Success' not in success_security_group_management_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63445
+      
+- name: "MEDIUM | V-63447 | AUDIT | The system will be configured to audit 'Account Management -> User Account Management' failures."
+  win_shell: AuditPol /get /subcategory:"User Account Management"
+  register: failure_user_account_management_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63447
+
+- name: "MEDIUM | V-63447 | PATCH | The system will be configured to audit 'Account Management -> User Account Management' failures."
+  win_shell: AuditPol /set /subcategory:"User Account Management" /failure:enable
+  when: "'Failure' not in failure_user_account_management_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63447
+      
+- name: "MEDIUM | V-63449 | AUDIT | The system will be configured to audit 'Account Management -> User Account Management' successes."
+  win_shell: AuditPol /get /subcategory:"User Account Management"
+  register: success_user_account_management_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63449
+      
+- name: "MEDIUM | V-63449 | PATCH | The system will be configured to audit 'Account Management -> User Account Management' successes."
+  win_shell: AuditPol /set /subcategory:"User Account Management" /success:enable
+  when: "'Success' not in success_user_account_management_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63449
+
+- name: "MEDIUM | V-63451 | AUDIT | The system will be configured to audit 'Detailed Tracking -> PNP Activity' successes."
+  win_shell: AuditPol /get /subcategory:"PNP Activity"
+  register: success_PNP_activity_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63451
+
+- name: "MEDIUM | V-63451 | PATCH | The system will be configured to audit 'Detailed Tracking -> PNP Activity' successes."
+  win_shell: AuditPol /get /subcategory:"PNP Activity"
+  when: "'Success' not in success_PNP_activity_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63451
+      
+- name: "MEDIUM | V-663733 | AUDIT | The system will be configured to audit 'Detailed Tracking -> Process Creation' successes."
+  win_shell: AuditPol /get /subcategory:"Process Creation"
+  register: success_process_creation_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-663733
+
+- name: "MEDIUM | V-663733 | PATCH | The system will be configured to audit 'Detailed Tracking -> Process Creation' successes."
+  win_shell: AuditPol /set /subcategory:"Process Creation" /success:enable
+  when: "'Success' not in success_process_creation_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-663733
+      
+- name: "MEDIUM | V-63455 | AUDIT | The system will be configured to audit 'Logon/Logoff -> Account Lockout' successes."
+  win_shell: AuditPol /get /subcategory:"Account Lockout"
+  register: success_account_lockout_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63455
+
+- name: "MEDIUM | V-63455 | PATCH | The system will be configured to audit 'Logon/Logoff -> Account Lockout' successes."
+  win_shell: AuditPol /set /subcategory:"Account Lockout" /success:enable
+  when: "'Success' not in success_account_lockout_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63455
+      
+- name: "MEDIUM | V-63457 | AUDIT | The system will be configured to audit 'Logon/Logoff -> Group Membership' successes."
+  win_shell: AuditPol /get /subcategory:"Group Membership"
+  register: success_group_membership_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63457
+
+- name: "MEDIUM | V-63457 | PATCH | The system will be configured to audit 'Logon/Logoff -> Group Membership' successes."
+  win_shell: AuditPol /set /subcategory:"Group Membership" /success:enable
+  when: "'Success' not in success_group_membership_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63457
+            
+- name: "MEDIUM | V-63459 | AUDIT | The system will be configured to audit 'Logon/Logoff -> Logoff' successes."
+  win_shell: AuditPol /get /subcategory:"Logoff"
+  register: success_logoff_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63459
+
+- name: "MEDIUM | V-63459 | PATCH | The system will be configured to audit 'Logon/Logoff -> Logoff' successes."
+  win_shell: AuditPol /set /subcategory:"Logoff" /success:enable
+  when: "'Success' not in success_logoff_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63459
+      
+- name: "MEDIUM | V-63463 | AUDIT | The system will be configured to audit 'Logon/Logoff -> Logon' failures."
+  win_shell: AuditPol /get /subcategory:"Logon"
+  register: failure_logon_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63463
+
+- name: "MEDIUM | V-63463 | PATCH | The system will be configured to audit 'Logon/Logoff -> Logon' failures."
+  win_shell: AuditPol /set /subcategory:"Logon" /failure:enable
+  when: "'Failure' not in failure_logon_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63463
+      
+- name: "MEDIUM | V-63467 | AUDIT | The system will be configured to audit 'Logon/Logoff -> Logon' successes."
+  win_shell: AuditPol /get /subcategory:"Logon"
+  register: success_logon_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63467
+
+- name: "MEDIUM | V-63467 | PATCH | The system will be configured to audit 'Logon/Logoff -> Logon' successes."
+  win_shell: AuditPol /set /subcategory:"Logon" /success:enable
+  when: "'Success' not in success_logon_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63467
+      
+- name: "MEDIUM | V-63469 | AUDIT | The system will be configured to audit 'Logon/Logoff -> Special Logon' successes."
+  win_shell: AuditPol /get /subcategory:"Special Logon"
+  register: success_special_logon_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63469
+
+- name: "MEDIUM | V-63469 | PATCH | The system will be configured to audit 'Logon/Logoff -> Special Logon' successes."
+  win_shell: AuditPol /set /subcategory:"Special Logon" /success:enable
+  when: "'Success' not in success_special_logon_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63469
+      
+- name: "MEDIUM | V-63471 | AUDIT | The system must be configured to audit Object Access - Removable Storage failures."
+  win_shell: "AuditPol /get /subcategory:'Removable Storage'"
+  register: removable_storage_failures_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63471
+
+- name: "MEDIUM | V-63471 | PATCH | The system must be configured to audit Object Access - Removable Storage failures."
+  win_shell: AuditPol /set /subcategory:"Removable Storage" /failure:enable
+  when: "'Failure' not in removable_storage_failures_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63471
+      
+- name: "MEDIUM | V-63473 | AUDIT | The system must be configured to audit Object Access - Removable Storage successes."
+  win_shell: "AuditPol /get /subcategory:'Removable Storage'"
+  register: removable_storage_successes_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63473
+
+- name: "MEDIUM | V-63473 | PATCH | The system must be configured to audit Object Access - Removable Storage successes."
+  win_shell: AuditPol /set /subcategory:"Removable Storage" /success:enable
+  when: "'Success' not in removable_storage_successes_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63473
+      
+- name: "MEDIUM | V-63475 | AUDIT | The system will be configured to audit 'Policy Change -> Audit Policy Change' failures."
+  win_shell: AuditPol /get /subcategory:"Audit Policy Change"
+  register: failure_audit_policy_change_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63475
+
+- name: "MEDIUM | V-63475 | PATCH | The system will be configured to audit 'Policy Change -> Audit Policy Change' failures."
+  win_shell: AuditPol /set /subcategory:"Audit Policy Change" /failure:enable
+  when: "'Failure' not in failure_audit_policy_change_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63475
+      
+- name: "MEDIUM | V-63479 | AUDIT | The system will be configured to audit 'Policy Change -> Audit Policy Change' successes."
+  win_shell: AuditPol /get /subcategory:"Audit Policy Change"
+  register: success_audit_policy_change_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63479
+
+- name: "MEDIUM | V-63479 | PATCH | The system will be configured to audit 'Policy Change -> Audit Policy Change' successes."
+  win_shell: AuditPol /set /subcategory:"Audit Policy Change" /success:enable
+  when: "'Success' not in success_audit_policy_change_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63479
+      
+- name: "MEDIUM | V-63481 | AUDIT | The system will be configured to audit 'Policy Change -> Authentication Policy Change' successes."
+  win_shell: AuditPol /get /subcategory:"Authentication Policy Change"
+  register: success_authentication_policy_change_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63481
+
+- name: "MEDIUM | V-63481 | PATCH | The system will be configured to audit 'Policy Change -> Authentication Policy Change' successes."
+  win_shell: AuditPol /set /subcategory:"Authentication Policy Change" /success:enable
+  when: "'Success' not in success_authentication_policy_change_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63481
+      
+- name: "MEDIUM | V-63483 | AUDIT | The system will be configured to audit 'Privilege Use -> Sensitive Privilege Use' failures."
+  win_shell: AuditPol /get /subcategory:"Sensitive Privilege Use"
+  register: failure_sensitive_privilege_use_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63483
+
+- name: "MEDIUM | V-63483 | PATCH | The system will be configured to audit 'Privilege Use -> Sensitive Privilege Use' failures."
+  win_shell: AuditPol /set /subcategory:"Sensitive Privilege Use" /failure:enable
+  when: "'Failure' not in failure_sensitive_privilege_use_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63483
+      
+- name: "MEDIUM | V-63487 | AUDIT | The system will be configured to audit 'Privilege Use -> Sensitive Privilege Use' successes."
+  win_shell: AuditPol /get /subcategory:"Sensitive Privilege Use"
+  register: success_sensitive_privilege_use_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63487
+
+- name: "MEDIUM | V-63487 | PATCH | The system will be configured to audit 'Privilege Use -> Sensitive Privilege Use' successes."
+  win_shell: AuditPol /set /subcategory:"Sensitive Privilege Use" /success:enable
+  when: "'Success' not in success_sensitive_privilege_use_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63487
+      
+- name: "MEDIUM | V-63491 | AUDIT | The system will be configured to audit 'System -> IPSec Driver' failures."
+  win_shell: AuditPol /get /subcategory:"IPSec Driver"
+  register: failure_IPSec_driver_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63491
+
+- name: "MEDIUM | V-63491 | PATCH | The system will be configured to audit 'System -> IPSec Driver' failures."
+  win_shell: AuditPol /set /subcategory:"IPSec Driver" /failure:enable
+  when: "'Failure' not in failure_IPSec_driver_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63491
+      
+- name: "MEDIUM | V-63495 | AUDIT | The system will be configured to audit 'System -> IPSec Driver' successes."
+  win_shell: AuditPol /get /subcategory:"IPSec Driver"
+  register: success_IPSec_driver_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63495
+
+- name: "MEDIUM | V-63495 | PATCH | The system will be configured to audit 'System -> IPSec Driver' successes."
+  win_shell: AuditPol /set /subcategory:"IPSec Driver" /success:enable
+  when: "'Success' not in success_IPSec_driver_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63495
+      
+- name: "MEDIUM | V-63499 | AUDIT | The system will be configured to audit 'System -> Other System Events' successes."
+  win_shell: AuditPol /get /subcategory:"Other System Events"
+  register: success_other_system_events_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63499
+
+- name: "MEDIUM | V-63499 | PATCH | The system will be configured to audit 'System -> Other System Events' successes."
+  win_shell: AuditPol /set /subcategory:"Other System Events" /success:enable
+  when: "'Success' not in success_other_system_events_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63499
+      
+- name: "MEDIUM | V-63503 | AUDIT | The system will be configured to audit 'System -> Other System Events' failures."
+  win_shell: AuditPol /get /subcategory:"Other System Events"
+  register: success_other_system_events_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63503
+
+- name: "MEDIUM | V-63503 | PATCH | The system will be configured to audit 'System -> Other System Events' failures."
+  win_shell: AuditPol /set /subcategory:"Other System Events" /failure:enable
+  when: "'Failure' not in success_other_system_events_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63503
+      
+- name: "MEDIUM | V-63507 | AUDIT | The system will be configured to audit 'System -> Security State Change' successes."
+  win_shell: AuditPol /get /subcategory:"Security State Change"
+  register: success_security_state_change_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63507
+
+- name: "MEDIUM | V-63507 | PATCH | The system will be configured to audit 'System -> Security State Change' successes."
+  win_shell: AuditPol /set /subcategory:"Security State Change" /success:enable
+  when: "'Success' not in success_security_state_change_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63507
+      
+- name: "MEDIUM | V-63513 | AUDIT | The system will be configured to audit 'System -> Security System Extension' successes."
+  win_shell: AuditPol /get /subcategory:"Security System Extension"
+  register: success_security_system_extension_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63513
+
+- name: "MEDIUM | V-63513 | PATCH | The system will be configured to audit 'System -> Security System Extension' successes."
+  win_shell: AuditPol /set /subcategory:"Security System Extension" /success:enable
+  when: "'Success' not in success_security_system_extension_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63513
+      
+- name: "MEDIUM | V-63515 | AUDIT | The system will be configured to audit 'System -> System Integrity' failures."
+  win_shell: AuditPol /get /subcategory:"System Integrity"
+  register: failure_system_integrity_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63515
+
+- name: "MEDIUM | V-63515 | PATCH | The system will be configured to audit 'System -> System Integrity' failures."
+  win_shell: AuditPol /set /subcategory:"System Integrity" /failure:enable
+  when: "'Failure' not in failure_system_integrity_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63515
+      
+- name: "MEDIUM | V-63517 | AUDIT | The system will be configured to audit 'System -> System Integrity' successes."
+  win_shell: AuditPol /get /subcategory:"System Integrity"
+  register: success_system_integrity_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63517
+
+- name: "MEDIUM | V-63517 | PATCH | The system will be configured to audit 'System -> System Integrity' successes."
+  win_shell: AuditPol /set /subcategory:"System Integrity" /success:enable
+  when: "'Success' not in success_system_integrity_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63517
+      
+- name: "MEDIUM | V-63519 | AUDIT | The Application event log size must be configured to 32768 KB or greater."
+  win_command: reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application /v MaxSize
+  register: application_log_max_size_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "application_log_max_size_audit.stderr and reg_not_found not in application_log_max_size_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63519
+
+- name: "MEDIUM | V-63519 | PATCH | The Application event log size must be configured to 32768 KB or greater."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Application'
+      value: MaxSize
+      data: 0x00008000
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63519
+      
+- name: "MEDIUM | V-63523 | AUDIT | The Security event log size must be configured to 1024000 KB or greater."
+  win_command: reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security /v MaxSize
+  register: security_log_max_size_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "security_log_max_size_audit.stderr and reg_not_found not in security_log_max_size_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63523
+
+- name: "MEDIUM | V-63523 | PATCH | The Security event log size must be configured to 1024000 KB or greater."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security'
+      value: MaxSize
+      data: 0x00030000
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63523
+      
+- name: "MEDIUM | V-63527 | AUDIT | The System event log size must be configured to 32768 KB or greater."
+  win_command: reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\EventLog\System /v MaxSize
+  register: system_log_max_size_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "system_log_max_size_audit.stderr and reg_not_found not in system_log_max_size_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63527
+
+- name: "MEDIUM | V-63527 | PATCH | The System event log size must be configured to 32768 KB or greater."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\System'
+      value: MaxSize
+      data: 0x00008000
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63527
+      
+- name: "MEDIUM | V-63533 | AUDIT | Permissions for the Application event log must prevent access by non-privileged accounts."
+  win_shell: Get-Acl -PATH 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\Application.evtx' | Format-List
+  register: eventlog_permissions_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "path_not_found not in eventlog_permissions_audit.stderr and eventlog_permissions_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63533
+
+- name: "MEDIUM | V-63533 | AUDIT | Permissions for the Application event log must prevent access by non-privileged accounts."
+  win_shell: (Get-Acl -PATH 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\Application.evtx').Access.IdentityReference.Value
+  register: eventlog_permissions_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "path_not_found not in eventlog_permissions_audit.stderr and eventlog_permissions_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63533
+      
+###################### block start - conditionally apply patches if path exists #########################
+
+- block:
+    - name: "REMOVAL MEDIUM | V-63533 | PATCH | Permissions for the Application event log must prevent access by nonprivileged accounts."
+      win_acl:
+          path: 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\Application.evtx'
+          user: '{{ item[0] | replace("APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES" , "ALL APPLICATION PACKAGES") }}'
+          rights: 'FullControl'
+          type: '{{ item[1] }}'
+          state: 'absent'
+      when: "not('EventLog' in item[0] or 'SYSTEM' in item[0] or 'Administrators' in item[0]) or 'allow' not in item[1]"
+      with_nested:
+          - "{{ eventlog_permissions_audit.stdout_lines }}"
+          - [ allow, deny ]
+     
+    - name: "MEDIUM | V-63533 | PATCH | Permissions for the Application event log must prevent access by nonprivileged accounts."
+      win_acl:
+          path: 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\Application.evtx'
+          user: '{{ item }}'
+          rights: 'FullControl'
+          type: 'allow'
+          state: 'present'
+          inherit: 'ContainerInherit, ObjectInherit'
+          propagation: 'None'
+      with_items:
+          - 'NT SERVICE\EventLog'
+          - 'NT AUTHORITY\SYSTEM'
+          - 'BUILTIN\Administrators'
+   
+    - name: "REMOVAL MEDIUM | V-63533 | PATCH | Permissions for the Application event log must prevent access by nonprivileged accounts."
+      win_acl_inheritance:
+          path: 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\Application.evtx'
+          state: 'absent'
+   
+  when: "path_not_found not in eventlog_permissions_audit.stderr and eventlog_permissions_audit"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63533
+######################################### block end #####################################################
+
+- name: "MEDIUM | V-63537 | AUDIT | Permissions for the Security event log must prevent access by non-privileged accounts."
+  win_shell: Get-Acl -PATH 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\Security.evtx' | Format-List
+  register: security_evtx_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "path_not_found not in security_evtx_audit.stderr and security_evtx_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63537
+
+- name: "MEDIUM | V-63537 | AUDIT | Permissions for the Security event log must prevent access by non-privileged accounts."
+  win_shell: (Get-Acl -PATH 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\Security.evtx').Access.IdentityReference.Value
+  register: security_evtx_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "path_not_found not in security_evtx_audit.stderr and security_evtx_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63537
+
+###################### block start - conditionally apply patches if path exists #########################
+
+- block:
+    - name: "REMOVAL MEDIUM | V-63537 | PATCH | Permissions for the Security event log must prevent access by non-privileged accounts."
+      win_acl:
+          path: 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\Security.evtx'
+          user: '{{ item[0] | replace("APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES" , "ALL APPLICATION PACKAGES") }}'
+          rights: 'FullControl'
+          type: '{{ item[1] }}'
+          state: 'absent'
+      when: "not('EventLog' in item[0] or 'SYSTEM' in item[0] or 'Administrators' in item[0]) or 'allow' not in item[1]"
+      with_nested:
+          - "{{ security_evtx_audit.stdout_lines }}"
+          - [ allow, deny ]
+   
+    - name: "MEDIUM | V-63537 | PATCH | Permissions for the Security event log must prevent access by non-privileged accounts."
+      win_acl:
+          path: 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\Security.evtx'
+          user: '{{ item }}'
+          rights: 'FullControl'
+          type: 'allow'
+          state: 'present'
+          inherit: 'ContainerInherit, ObjectInherit'
+          propagation: 'None'
+      with_items:
+          - 'NT SERVICE\Eventlog'
+          - 'NT AUTHORITY\SYSTEM'
+          - 'BUILTIN\Administrators'
+     
+    - name: "REMOVAL MEDIUM | V-63537 | PATCH | Permissions for the Security event log must prevent access by non-privileged accounts."
+      win_acl_inheritance:
+          path: 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\Security.evtx'
+          state: 'absent'
+     
+  when: "path_not_found not in security_evtx_audit.stderr and security_evtx_audit"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63537
+######################################### block end #####################################################
+
+- name: "MEDIUM | V-63541 | AUDIT | Permissions for the System event log must prevent access by non-privileged accounts."
+  win_shell: Get-Acl -PATH 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\System.evtx' | Format-List
+  register: system_evtx_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "path_not_found not in system_evtx_audit.stderr and system_evtx_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63541
+      
+- name: "MEDIUM | V-63541 | AUDIT | Permissions for the System event log must prevent access by non-privileged accounts."
+  win_shell: (Get-Acl -PATH 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\System.evtx').Access.IdentityReference.Value
+  register: system_evtx_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "path_not_found not in system_evtx_audit.stderr and system_evtx_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63541
+
+###################### block start - conditionally apply patches if path exists #########################
+
+- block:
+    - name: "REMOVAL MEDIUM | V-63541 | PATCH | Permissions for the System event log must prevent access by non-privileged accounts."
+      win_acl:
+          path: 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\System.evtx'
+          user: '{{ item[0] | replace("APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES" , "ALL APPLICATION PACKAGES") }}'
+          rights: 'FullControl'
+          type: '{{ item[1] }}'
+          state: 'absent'
+      when: "not('EventLog' in item[0] or 'SYSTEM' in item[0] or 'Administrators' in item[0]) or 'allow' not in item[1]"
+      with_nested:
+          - "{{ system_evtx_audit.stdout_lines }}"
+          - [ allow, deny ]
+   
+    - name: "MEDIUM | V-63541 | PATCH | Permissions for the System event log must prevent access by non-privileged accounts."
+      win_acl:
+          path: 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\System.evtx'
+          user: '{{ item }}'
+          rights: 'FullControl'
+          type: 'allow'
+          state: 'present'
+          inherit: 'ContainerInherit, ObjectInherit'
+          propagation: 'None'
+      with_items:
+          - 'NT SERVICE\EventLog'
+          - 'NT AUTHORITY\SYSTEM'
+          - 'BUILTIN\Administrators'
+   
+
+    - name: "REMOVAL MEDIUM | V-63541 | PATCH | Permissions for the System event log must prevent access by non-privileged accounts."
+      win_acl_inheritance:
+          path: 'C:\WINDOWS\SYSTEM32\WINEVT\LOGS\System.evtx'
+          state: 'absent'
+   
+  when: "path_not_found not in system_evtx_audit.stderr and system_evtx_audit"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63541
+######################################### block end #####################################################
+
+- name: "MEDIUM | V-63549 | AUDIT | The display of slide shows on the lock screen must be disabled."
+  win_command: reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization\ /v NoLockScreenSlideshow
+  register: display_lock_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in display_lock_audit.stderr and display_lock_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63549
+
+- name: "MEDIUM | V-63549 | PATCH | The display of slide shows on the lock screen must be disabled."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization\'
+      value: NoLockScreenSlideshow
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63549
+
+- name: "MEDIUM | V-63545 | AUDIT | Camera access from the lock screen must be disabled."
+  win_command: reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization\ /v NoLockScreenCamera
+  register: disable_camera_access_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in disable_camera_access_audit.stderr and disable_camera_access_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63545
+	  
+- name: "MEDIUM | V-63545 | PATCH | Camera access from the lock screen must be disabled."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization\'
+      value: NoLockScreenCamera
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63545
+
+- name: "MEDIUM | V-63555 | AUDIT | IPv6 source routing must be configured to highest protection."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\Tcpip6\Parameters /v DisableIPSourceRouting
+  register: disable_ipv6_routing_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in disable_ipv6_routing_audit.stderr and disable_ipv6_routing_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63555
+
+- name: "MEDIUM | V-63555 | PATCH | IPv6 source routing must be configured to highest protection."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Services\Tcpip6\Parameters'
+      value: DisableIPSourceRouting
+      data: 2
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63555
+      
+- name: "MEDIUM | V-63559 | AUDIT | The system will be configured to prevent IP source routing."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\Tcpip\Parameters /v DisableIPSourceRouting
+  register: disable_ip_routing_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in disable_ip_routing_audit.stderr and disable_ip_routing_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63559
+
+- name: "MEDIUM | V-63559 | PATCH | The system will be configured to prevent IP source routing."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Services\Tcpip\Parameters'
+      value: DisableIPSourceRouting
+      data: 2
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63559
+ 
+- name: "MEDIUM | V-63569 | AUDIT | Insecure logons to an SMB server must be disabled."
+  win_command: reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation\ /v AllowInsecureGuestAuth
+  register: disable_smb_access_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in disable_smb_access_audit.stderr and disable_smb_access_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63569
+
+- name: "MEDIUM | V-63569 | PATCH | Insecure logons to an SMB server must be disabled."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation\'
+      value: AllowInsecureGuestAuth
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63569
+ 
+- name: "MEDIUM | V-63597 | AUDIT | Local administrator accounts must have their privileged token filtered to prevent elevated privileges from being used over the network on domain systems."
+  win_command: reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v LocalAccountTokenFilterPolicy
+  register: token_filter_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "token_filter_audit.stderr and reg_not_found not in token_filter_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63597
+
+- name: "MEDIUM | V-63597 | PATCH | Local administrator accounts must have their privileged token filtered to prevent elevated privileges from being used over the network on domain systems."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
+      value: LocalAccountTokenFilterPolicy
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63597
+
+- name: "MEDIUM | V-63607 | AUDIT | Early Launch Antimalware, Boot-Start Driver Initialization Policy must be enabled and configured to only Good and Unknown."
+  win_command: reg query HKLM\System\CurrentControlSet\Policies\EarlyLaunch\ /v DriverLoadPolicy
+  register: early_initialization_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in early_initialization_audit.stderr and early_initialization_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63607
+
+- name: "MEDIUM | V-63607 | PATCH | Early Launch Antimalware, Boot-Start Driver Initialization Policy must be enabled and configured to only Good and Unknown."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Policies\EarlyLaunch\'
+      value: DriverLoadPolicy
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63607
+      
+- name: "MEDIUM | V-63609 | AUDIT | Group Policy objects will be reprocessed even if they have not changed."
+  win_command: reg query \"HKLM\Software\Policies\Microsoft\Windows\Group Policy\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}\" /v NoGPOListChanges
+  register: reprocess_GPO_audit
+  check_mode: no
+  changed_when: no
+  when: ansible_powershell_version == 4
+  failed_when: "reg_not_found not in reprocess_GPO_audit.stderr and reprocess_GPO_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63609
+
+- name: "MEDIUM | V-63609 | AUDIT | Group Policy objects will be reprocessed even if they have not changed."
+  win_shell: reg query "HKLM\Software\Policies\Microsoft\Windows\Group Policy\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}" /v NoGPOListChanges
+  register: reprocess_GPO_audit
+  check_mode: no
+  changed_when: no
+  when: ansible_powershell_version == 3
+  failed_when: "'ERROR: Invalid syntax' in reprocess_GPO_audit.module_stdout"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63609
+
+- name: "MEDIUM | V-63609 | PATCH | Group Policy objects will be reprocessed even if they have not changed."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\Group Policy\{35378EAC-683F-11D2-A89A-00C04FBBCFA2}'
+      value: NoGPOListChanges
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63609
+
+- name: "MEDIUM | V-63611 | AUDIT | The built-in guest account must be disabled."
+  debug: var=secedit_rules.System_Access.EnableGuestAccount
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63611
+
+- name: "MEDIUM | V-63611 | PATCH | The built-in guest account must be disabled."
+  win_secedit:
+      category: 'System Access'
+      key: EnableGuestAccount
+      value: '0'
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63611
+
+- name: "MEDIUM | V-63615 | AUDIT | Downloading print driver packages over HTTP will be prevented."
+  win_command: reg query \"HKLM\Software\Policies\Microsoft\Windows NT\Printers\" /v DisableWebPnPDownload
+  register: disable_HTTP_printer_drivers_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in disable_HTTP_printer_drivers_audit.stderr and disable_HTTP_printer_drivers_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63615
+
+- name: "MEDIUM | V-63615 | PATCH | Downloading print driver packages over HTTP will be prevented."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows NT\Printers'
+      value: DisableWebPnPDownload
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63615
+
+- name: "MEDIUM | V-63617 | AUDIT | Local accounts with blank passwords must be restricted to prevent access from the network."
+  win_command: reg query HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ /v LimitBlankPasswordUse
+  register: disable_limit_blank_pwds_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in disable_limit_blank_pwds_audit.stderr and disable_limit_blank_pwds_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63617
+
+- name: "MEDIUM | V-63617 | PATCH | Local accounts with blank passwords must be restricted to prevent access from the network."
+  win_regedit:
+      key: 'HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\'
+      value: LimitBlankPasswordUse
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63617
+      
+- name: "MEDIUM | V-63619 | AUDIT | The built-in administrator account will be renamed."
+  debug: var=secedit_rules.System_Access.NewAdministratorName
+  register: result
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63619
+
+# - name: "MEDIUM | V-63619 | PATCH | The built-in administrator account will be renamed."
+#   win_command: true
+#   tags:
+#       - cat2
+#       - medium
+#       - patch
+#       - V-63619
+
+- name: "MEDIUM | V-63621 | AUDIT | Web publishing and online ordering wizards must be prevented from downloading a list of providers."
+  win_command: reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\ /v NoWebServices
+  register: disable_web_services_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in disable_web_services_audit.stderr and disable_web_services_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63621
+
+- name: "MEDIUM | V-63621 | PATCH | Web publishing and online ordering wizards must be prevented from downloading a list of providers."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\'
+      value: NoWebServices
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63621
+
+- name: "MEDIUM | V-63623 | AUDIT | Printing over HTTP will be prevented."
+  win_command: reg query \"HKLM\Software\Policies\Microsoft\Windows NT\Printers\" /v DisableHTTPPrinting
+  register: disable_HTTP_printing_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in disable_HTTP_printing_audit.stderr and disable_HTTP_printing_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63623
+
+- name: "MEDIUM | V-63623 | PATCH | Printing over HTTP will be prevented."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows NT\Printers'
+      value: DisableHTTPPrinting
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63623
+      
+- name: "MEDIUM | V-63625 | AUDIT | The built-in guest account must be renamed."
+  debug: var=secedit_rules.System_Access.NewGuestName
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63625
+
+# - name: "MEDIUM | V-63625 | PATCH | The built-in guest account must be renamed."
+#   win_secedit:
+#       category: 'System Access'
+#       key: NewGuestName
+#       # Need single quote and double quote because secedit prepends and apends \" to value like \"value\" 
+#       value: '"Administrator"'
+#   register: secedit
+#   failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+#   tags:
+#       - cat2
+#       - medium
+#       - patch
+#       - V-63625
+      
+- name: "MEDIUM | V-63629 | AUDIT | The network selection user interface (UI) must not be displayed on the logon screen."
+  win_command: reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\System\ /v DontDisplayNetworkSelectionUI
+  register: network_selection_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in network_selection_audit.stderr and network_selection_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63629
+
+- name: "MEDIUM | V-63629 | PATCH | The network selection user interface (UI) must not be displayed on the logon screen."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System\'
+      value: DontDisplayNetworkSelectionUI
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63629
+
+- name: "MEDIUM | V-63633 | AUDIT | Local users on domain-joined computers must not be enumerated."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\System\ /v EnumerateLocalUsers
+  register: local_domain_joined_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in local_domain_joined_audit.stderr and local_domain_joined_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63633
+
+- name: "MEDIUM | V-63633 | PATCH | Local users on domain-joined computers must not be enumerated."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\System\'
+      value: EnumerateLocalUsers
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63633
+
+- name: "MEDIUM | V-63635 | AUDIT | Audit policy using subcategories will be enabled."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\Lsa /v SCENoApplyLegacyAuditPolicy
+  register: subcategories_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in subcategories_audit.stderr and subcategories_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63635
+
+- name: "MEDIUM | V-63635 | PATCH | Audit policy using subcategories will be enabled."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Control\Lsa'
+      value: SCENoApplyLegacyAuditPolicy
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63635
+ 
+- name: "MEDIUM | V-63639 | AUDIT | Outgoing secure channel traffic will be encrypted or signed."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\Netlogon\Parameters /v RequireSignOrSeal
+  register: encrypt_or_sign_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in encrypt_or_sign_audit.stderr and encrypt_or_sign_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63639
+
+- name: "MEDIUM | V-63639 | PATCH | Outgoing secure channel traffic will be encrypted or signed."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Services\Netlogon\Parameters'
+      value: RequireSignOrSeal
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63639
+
+- name: "MEDIUM | V-63643 | AUDIT | Outgoing secure channel traffic will be encrypted when possible."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\Netlogon\Parameters /v SealSecureChannel
+  register: encrypt_outgoing_secure_channel_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in encrypt_outgoing_secure_channel_audit.stderr and encrypt_outgoing_secure_channel_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63643
+
+- name: "MEDIUM | V-63643 | PATCH | Outgoing secure channel traffic will be encrypted when possible."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Services\Netlogon\Parameters'
+      value: SealSecureChannel
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63643
+     
+- name: "MEDIUM | V-63645 | AUDIT | Users must be prompted for a password on resume from sleep (on battery)."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51 /v DCSettingIndex
+  register: prompt_resume_DC_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in prompt_resume_DC_audit.stderr and prompt_resume_DC_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63645
+
+- name: "MEDIUM | V-63645 | PATCH | Users must be prompted for a password on resume from sleep (on battery)."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51'
+      value: DCSettingIndex
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63645
+     
+- name: "MEDIUM | V-63647 | AUDIT | Outgoing secure channel traffic will be signed when possible."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\Netlogon\Parameters /v SignSecureChannel
+  register: sign_outgoing_secure_channel_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in sign_outgoing_secure_channel_audit.stderr and sign_outgoing_secure_channel_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63647
+
+- name: "MEDIUM | V-63647 | PATCH | Outgoing secure channel traffic will be signed when possible."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Services\Netlogon\Parameters'
+      value: SignSecureChannel
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63647
+
+- name: "MEDIUM | V-63649 | AUDIT | The user will be prompted for a password on resume from sleep (Plugged In)."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51 /v ACSettingIndex
+  register: prompt_resume_AC_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in prompt_resume_AC_audit.stderr and prompt_resume_AC_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63649
+
+- name: "MEDIUM | V-63649 | PATCH | The user will be prompted for a password on resume from sleep (Plugged In)."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51'
+      value: ACSettingIndex
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63649
+
+- name: "MEDIUM | V-63657 | AUDIT | Unauthenticated RPC clients must be restricted from connecting to the RPC server."
+  win_command: reg query \"HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Rpc\" /v RestrictRemoteClients
+  register: restrict_remote_clients_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in restrict_remote_clients_audit.stderr and restrict_remote_clients_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63657
+
+- name: "MEDIUM | V-63657 | PATCH | Unauthenticated RPC clients must be restricted from connecting to the RPC server."
+  win_regedit: 
+      key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Rpc'
+      value: RestrictRemoteClients
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63657
+
+- name: "MEDIUM | V-63665 | AUDIT | The system must be configured to require a strong session key."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\Netlogon\Parameters\ /v RequireStrongKey
+  register: strong_sessionkey_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in strong_sessionkey_audit.stderr and strong_sessionkey_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63665
+
+- name: "MEDIUM | V-63665 | PATCH | The system must be configured to require a strong session key."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Services\Netlogon\Parameters\'
+      value: RequireStrongKey
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63665
+
+- name: "MEDIUM | V-63669 | AUDIT | The machine inactivity limit must be set to 15 minutes, locking the system with the screensaver."
+  win_command: reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v InactivityTimeoutSecs
+  register: inactivity_limit_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in inactivity_limit_audit.stderr and inactivity_limit_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63669
+
+- name: "MEDIUM | V-63669 | PATCH | The machine inactivity limit must be set to 15 minutes, locking the system with the screensaver."
+  win_regedit:
+      key: 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\'
+      value: InactivityTimeout
+      data: 0x00000384
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63669
+
+- name: "MEDIUM | V-63675 | AUDIT | The required legal notice must be configured to display before console logon."
+  win_command: reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\ /v LegalNoticeText
+  register: enable_legal_notice_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in enable_legal_notice_audit.stderr and enable_legal_notice_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63675
+
+- name: "MEDIUM | V-63675 | PATCH | The required legal notice must be configured to display before console logon."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\'
+      value: LegalNoticeText
+      data: 'You are accessing a private Information System (IS) that is provided for personal use only. By using this IS (which includes any device attached to this IS), you consent to the following conditions:
+      
+      -The owner routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, monitoring, network operations and defense, & investigations.
+      
+      -At any time, the owner may inspect and seize data stored on this IS.
+      
+      -Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any authorized purpose.
+      
+      -This IS includes security measures (e.g., authentication and access controls) to protect personal interests--not for your personal benefit or privacy.
+      
+      -Notwithstanding the above, using this IS does not constitute consent to Personnel Misconduct (PM), Law Enforcement (LE), or Counterintelligence (CI) investigative searching or monitoring of the content of  privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential.
+      
+      See User Agreement for details.'
+      datatype: reg_sz
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63675
+      
+- name: "MEDIUM | V-63677 | AUDIT | Enhanced anti-spoofing for facial recognition must be enabled on Window 10."
+  win_command: reg query HKLM\SOFTWARE\Policies\Microsoft\Biometrics\FacialFeatures\ /v EnhancedAntiSpoofing
+  register: enable_enhanced_antispoof_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in enable_enhanced_antispoof_audit.stderr and enable_enhanced_antispoof_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63677
+
+- name: "MEDIUM | V-63677 | PATCH | Enhanced anti-spoofing for facial recognition must be enabled on Window 10."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Policies\Microsoft\Biometrics\FacialFeatures\'
+      value: EnhancedAntiSpoofing
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63677
+      
+- name: "MEDIUM | V-63683 | AUDIT | Enhanced anti-spoofing for facial recognition must be enabled on Window 10."
+  win_command: reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection\ /v AllowTelemetry
+  register: enable_allow_telemetry_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in enable_allow_telemetry_audit.stderr and enable_allow_telemetry_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63683
+
+- name: "MEDIUM | V-63683 | PATCH | Enhanced anti-spoofing for facial recognition must be enabled on Window 10."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection\'
+      value: AllowTelemetry
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63683
+      
+- name: "MEDIUM | V-63689 | AUDIT | Explorer Data Execution Prevention will be enabled."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\Explorer /v NoDataExecutionPrevention
+  register: DEP_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in DEP_audit.stderr and DEP_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63689
+
+- name: "MEDIUM | V-63689 | PATCH | Explorer Data Execution Prevention will be enabled."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\Explorer'
+      value: NoDataExecutionPrevention
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63689
+
+- name: "MEDIUM | V-63703 | AUDIT | The Windows SMB client must be configured to always perform SMB packet signing."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\LanmanWorkstation\Parameters /v RequireSecuritySignature
+  register: require_SMB_client_packet_signing_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in require_SMB_client_packet_signing_audit.stderr and require_SMB_client_packet_signing_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63703
+      
+- name: "MEDIUM | V-63707 | AUDIT | The Windows SMB client must be enabled to perform SMB packet signing when possible."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\LanmanWorkstation\Parameters /v EnableSecuritySignature
+  register: SMB_client_packet_signing_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in SMB_client_packet_signing_audit.stderr and SMB_client_packet_signing_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63707
+
+#- name: "MEDIUM | V-63707 | PATCH | The Windows SMB client must be enabled to perform SMB packet signing when possible."
+#  win_regedit: 
+#      key: 'HKLM:\System\CurrentControlSet\Services\LanmanWorkstation\Parameters'
+#      value: EnableSecuritySignature
+#      data: 1
+#      datatype: dword
+#  tags:
+#      - cat2
+#      - medium
+#      - patch
+#      - V-63707
+
+- name: "MEDIUM | V-63711 | AUDIT | Unencrypted passwords must not be sent to third-party SMB Servers."
+  win_command: reg query HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters /v EnablePlainTextPassword
+  register: plain_text_password_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in plain_text_password_audit.stderr and plain_text_password_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63711
+
+- name: "MEDIUM | V-63711 | PATCH | Unencrypted passwords must not be sent to third-party SMB Servers."
+  win_regedit:
+      key: 'HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters'
+      value: EnablePlainTextPassword
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63711
+
+- name: "MEDIUM | V-63719 | AUDIT | The Windows SMB server must be configured to always perform SMB packet signing."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\LanManServer\Parameters /v RequireSecuritySignature
+  register: require_SMB_server_packet_signing_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in require_SMB_server_packet_signing_audit.stderr and require_SMB_server_packet_signing_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63719
+
+- name: "MEDIUM | V-63723 | AUDIT | The Windows SMB server must perform SMB packet signing when possible."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\LanManServer\Parameters /v EnableSecuritySignature
+  register: SMB_server_packet_signing_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in SMB_server_packet_signing_audit.stderr and SMB_server_packet_signing_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63723
+
+#- name: "MEDIUM | V-63723 | PATCH | The Windows SMB server must perform SMB packet signing when possible."
+#  win_regedit: 
+#      key: 'HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters'
+#      value: EnableSecuritySignature
+#      data: 1
+#      datatype: dword
+#  tags:
+#      - cat2
+#      - medium
+#      - patch
+#      - V-63723
+
+- name: "MEDIUM | V-63733 | AUDIT | Remote Desktop Services must always prompt a client for passwords upon connection."
+  win_command: reg query \"HKLM\Software\Policies\Microsoft\Windows NT\Terminal Services\" /v fPromptForPassword
+  register: rdp_password_prompt_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in rdp_password_prompt_audit.stderr and rdp_password_prompt_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63733
+
+- name: "MEDIUM | V-63733 | PATCH | Remote Desktop Services must always prompt a client for passwords upon connection."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows NT\Terminal Services'
+      value: fPromptForPassword
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63733
+
+- name: "MEDIUM | V-63737 | AUDIT | The Remote Desktop Session Host must require secure RPC communications."
+  win_command: reg query \"HKLM\Software\Policies\Microsoft\Windows NT\Terminal Services\" /v fEncryptRPCTraffic
+  register: encrypt_RPC_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in encrypt_RPC_audit.stderr and encrypt_RPC_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63737
+
+- name: "MEDIUM | V-63737 | PATCH | The Remote Desktop Session Host must require secure RPC communications."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows NT\Terminal Services'
+      value: fEncryptRPCTraffic
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63737
+      
+- name: "MEDIUM | V-63741 | AUDIT | Remote Desktop Services must be configured with the client connection encryption set to the required level."
+  win_command: reg query \"HKLM\Software\Policies\Microsoft\Windows NT\Terminal Services\" /v MinEncryptionLevel
+  register: min_encrypt_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in min_encrypt_audit.stderr and min_encrypt_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63741
+
+- name: "MEDIUM | V-63741 | PATCH | Remote Desktop Services must be configured with the client connection encryption set to the required level."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows NT\Terminal Services'
+      value: MinEncryptionLevel
+      data: 3
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63741
+      
+- name: "MEDIUM | V-63743 | AUDIT | Attachments must be prevented from being downloaded from RSS feeds."
+  win_command: reg query \"HKLM\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds\" /v DisableEnclosureDownload
+  register: no_attachments_from_RSS_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in no_attachments_from_RSS_audit.stderr and no_attachments_from_RSS_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63743
+
+- name: "MEDIUM | V-63743 | PATCH | Attachments must be prevented from being downloaded from RSS feeds."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds'
+      value: DisableEnclosureDownload
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63743
+      
+- name: "MEDIUM | V-63747 | AUDIT | Basic authentication for RSS feeds over HTTP must be turned off."
+  win_command: reg query \"HKLM\Software\Policies\Microsoft\Internet Explorer\Feeds\" /v AllowBasicAuthInClear
+  register: authentication_rss_http_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in authentication_rss_http_audit.stderr and authentication_rss_http_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63747
+
+- name: "MEDIUM | V-63747 | PATCH | Basic authentication for RSS feeds over HTTP must be turned off."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Internet Explorer\Feeds\'
+      value: AllowBasicAuthInClear
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63747
+
+- name: "MEDIUM | V-63753 | AUDIT | The system must be configured to prevent the storage of passwords and credentials."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\Lsa /v DisableDomainCreds
+  register: creds_storage_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in creds_storage_audit.stderr and creds_storage_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63753
+
+- name: "MEDIUM | V-63753 | PATCH | The system must be configured to prevent the storage of passwords and credentials."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Control\Lsa'
+      value: DisableDomainCreds
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63753
+      
+- name: "MEDIUM | V-63755 | AUDIT | The system must be configured to prevent anonymous users from having the same rights as the Everyone group."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\Lsa /v EveryoneIncludesAnonymous
+  register: everyone_includes_anon_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in everyone_includes_anon_audit.stderr and everyone_includes_anon_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63755
+
+- name: "MEDIUM | V-63755 | PATCH | The system must be configured to prevent anonymous users from having the same rights as the Everyone group."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Control\Lsa'
+      value: EveryoneIncludesAnonymous
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63755
+
+      
+- name: "MEDIUM | V-63763 | AUDIT | Services using Local System that use negotiate when reverting to NTLM authentication must use the computer identity vs. authenticating anonymously."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\LSA /v UseMachineId
+  register: use_machine_ID_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in use_machine_ID_audit.stderr and use_machine_ID_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63763
+   
+- name: "MEDIUM | V-63765 | AUDIT | NTLM must be prevented from falling back to a Null session."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\LSA\MSV1_0 /v allownullsessionfallback
+  register: null_session_fallback_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in null_session_fallback_audit.stderr and null_session_fallback_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63765
+
+- name: "MEDIUM | V-63765 | PATCH | NTLM must be prevented from falling back to a Null session."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Control\LSA\MSV1_0'
+      value: allownullsessionfallback
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63765
+      
+- name: "MEDIUM | V-63767 | AUDIT | PKU2U authentication using online identities will be prevented."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\LSA\pku2u /v AllowOnlineID
+  register: online_ID_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in online_ID_audit.stderr and online_ID_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63767
+
+- name: "MEDIUM | V-63767 | PATCH | PKU2U authentication using online identities will be prevented."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Control\LSA\pku2u'
+      value: AllowOnlineID
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63767
+      
+- name: "MEDIUM | V-63795 | AUDIT | Kerberos encryption types must be configured to prevent the use of DES and RC4 encryption suites."
+  win_command: reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters /v SupportedEncryptionTypes
+  register: kerberos_encryption_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in kerberos_encryption_audit.stderr and kerberos_encryption_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63795
+
+- name: "MEDIUM | V-63795 | PATCH | Kerberos encryption types must be configured to prevent the use of DES and RC4 encryption suites."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Kerberos\Parameters'
+      value: SupportedEncryptionTypes
+      data: 0x7ffffff8
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63795
+      
+- name: "MEDIUM | V-63803 | AUDIT | The system must be configured to the required LDAP client signing level."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\LDAP /v LDAPClientIntegrity
+  register: LDAP_client_integrity_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in LDAP_client_integrity_audit.stderr and LDAP_client_integrity_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63803
+
+- name: "MEDIUM | V-63803 | PATCH | The system must be configured to the required LDAP client signing level."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Services\LDAP'
+      value: LDAPClientIntegrity
+      data: 1
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63803
+      
+- name: "MEDIUM | V-63805 | AUDIT | The system must be configured to meet the minimum session security requirement for NTLM SSP based clients."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\Lsa\MSV1_0 /v NTLMMinClientSec
+  register: NTLM_min_client_sec_audit
+  check_mode: no
+  changed_when: "'0x20080000' not in NTLM_min_client_sec_audit.stdout"
+  failed_when: "reg_not_found not in NTLM_min_client_sec_audit.stderr and NTLM_min_client_sec_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63805
+
+- name: "MEDIUM | V-63805 | PATCH | The system must be configured to meet the minimum session security requirement for NTLM SSP based clients."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Control\Lsa\MSV1_0'
+      value: NTLMMinClientSec
+      data: 0x20080000
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63805
+      
+- name: "MEDIUM | V-63807 | AUDIT | The system must be configured to meet the minimum session security requirement for NTLM SSP based servers."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\Lsa\MSV1_0 /v NTLMMinServerSec
+  register: NTLM_min_server_sec_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in NTLM_min_server_sec_audit.stderr and NTLM_min_server_sec_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63807
+
+- name: "MEDIUM | V-63807 | PATCH | TThe system must be configured to meet the minimum session security requirement for NTLM SSP based servers."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Control\Lsa\MSV1_0'
+      value: NTLMMinServerSec
+      data: 0x20080000
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63807
+      
+- name: "MEDIUM | V-63811 | AUDIT | The system must be configured to use FIPS-compliant algorithms for encryption, hashing, and signing."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy /v Enabled
+  register: FIPS_compliant_algorithms_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in FIPS_compliant_algorithms_audit.stderr and FIPS_compliant_algorithms_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63811
+
+# - name: "MEDIUM | V-63811 | PATCH | The system must be configured to use FIPS-compliant algorithms for encryption, hashing, and signing."
+#  win_regedit:
+#      key: 'HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy'
+#      value: Enabled
+#      data: 1
+#      datatype: dword
+#  tags:
+#      - cat2
+#      - medium
+#      - patch
+#      - V-63811
+
+- name: "MEDIUM | V-63817 | AUDIT | User Account Control approval mode for the built-in Administrator must be enabled."
+  win_command: reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v FilterAdministratorToken
+  register: admin_approval_mode_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in admin_approval_mode_audit.stderr and admin_approval_mode_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63817
+      
+- name: "MEDIUM | V-63819 | AUDIT | User Account Control must, at minimum, prompt administrators for consent on the secure desktop."
+  win_command: reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin
+  register: admin_consent_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in admin_consent_audit.stderr and admin_consent_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63819
+
+- name: "MEDIUM | V-63821 | AUDIT | User Account Control must automatically deny elevation requests for standard users."
+  win_command: reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorUser
+  register: user_consent_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in user_consent_audit.stderr and user_consent_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63821
+      
+- name: "MEDIUM | V-63825 | AUDIT | User Account Control must be configured to detect application installations and prompt for elevation."
+  win_command: reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v EnableInstallerDetection
+  register: enable_installer_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in enable_installer_audit.stderr and enable_installer_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63825
+      
+- name: "MEDIUM | V-63827 | AUDIT | User Account Control must only elevate UIAccess applications that are installed in secure locations."
+  win_command: reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v EnableSecureUIAPaths
+  register: enable_secure_UIA_paths_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in enable_secure_UIA_paths_audit.stderr and enable_secure_UIA_paths_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63827
+      
+- name: "MEDIUM | V-63829 | AUDIT | User Account Control must run all administrators in Admin Approval Mode, enabling UAC."
+  win_command: reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA
+  register: enable_UAC
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in enable_UAC.stderr and enable_UAC.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63829
+      
+- name: "MEDIUM | V-63831 | AUDIT | User Account Control must virtualize file and registry write failures to per-user locations."
+  win_command: reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v EnableVirtualization
+  register: UAC_virtualization_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in UAC_virtualization_audit.stderr and UAC_virtualization_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63831
+      
+- name: "MEDIUM | V-63841 | AUDIT | Zone information will be preserved when saving attachments."
+  win_command: reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments /v SaveZoneInformation
+  register: save_zone_info_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in save_zone_info_audit.stderr and save_zone_info_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63841
+
+- name: "MEDIUM | V-63841 | PATCH | Zone information will be preserved when saving attachments."
+  win_regedit:
+      key: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments'
+      value: SaveZoneInformation
+      data: 2
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63841
+      
+- name: "MEDIUM | V-63843 | AUDIT | The Access Credential Manager as a trusted caller user right must not be assigned to any groups or accounts."
+  debug: var=secedit_rules.Privilege_Rights.SeTrustedCredManAccessPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63843
+
+- name: "MEDIUM | V-63843 | PATCH | The Access Credential Manager as a trusted caller user right must not be assigned to any groups or accounts."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeTrustedCredManAccessPrivilege
+      value: ''
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63843
+      
+- name: "MEDIUM | V-63845 | AUDIT | The Access this computer from the network user right must only be assigned to the Administrators and Remote Desktop Users groups."
+  debug: var=secedit_rules.Privilege_Rights.SeNetworkLogonRight
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63845
+
+- name: "MEDIUM | V-63845 | PATCH | The Access this computer from the network user right must only be assigned to the Administrators and Remote Desktop Users groups."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeNetworkLogonRight
+      value: '*S-1-5-11,*S-1-5-32-544' #Authenticated Users, Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63845
+      
+- name: "MEDIUM | V-63851 | AUDIT | The Allow log on locally user right must only be assigned to the Administrators and Users groups."
+  debug: var=secedit_rules.Privilege_Rights.SeInteractiveLogonRight
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63851
+
+- name: "MEDIUM | V-63851 | PATCH | The Allow log on locally user right must only be assigned to the Administrators and Users groups."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeInteractiveLogonRight
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63851
+      
+- name: "MEDIUM | V-63853 | AUDIT | The Back up files and directories user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeBackupPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63853
+
+- name: "MEDIUM | V-63853 | PATCH | The Back up files and directories user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeBackupPrivilege
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63853
+      
+- name: "MEDIUM | V-63855 | AUDIT | The Change the system time user right must only be assigned to Administrators and Local Service."
+  debug: var=secedit_rules.Privilege_Rights.SeSystemtimePrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63855
+
+- name: "MEDIUM | V-63855 | PATCH | The Change the system time user right must only be assigned to Administrators and Local Service."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeSystemtimePrivilege
+      value: '*S-1-5-19,*S-1-5-32-544' #Local Service, Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63855
+      
+- name: "MEDIUM | V-63857 | AUDIT | The Create a pagefile user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeCreatePagefilePrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63857
+
+- name: "MEDIUM | V-63857 | PATCH | The Create a pagefile user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeCreatePagefilePrivilege
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63857
+      
+- name: "MEDIUM | V-63861 | AUDIT | The Create global objects user right must only be assigned to Administrators, Service, Local Service, and Network Service."
+  debug: var=secedit_rules.Privilege_Rights.SeCreateGlobalPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63861
+
+- name: "MEDIUM | V-63861 | PATCH | The Create global objects user right must only be assigned to Administrators, Service, Local Service, and Network Service."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeCreateGlobalPrivilege
+      value: '*S-1-5-19,*S-1-5-20,*S-1-5-32-544,*S-1-5-6' #Local Service, Network Service, Administrators, Service
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63861
+      
+- name: "MEDIUM | V-63863 | AUDIT | The Create permanent shared objects user right must not be assigned to any groups or accounts."
+  debug: var=secedit_rules.Privilege_Rights.SeCreatePermanentPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63863
+
+- name: "MEDIUM | V-63863 | PATCH | The Create permanent shared objects user right must not be assigned to any groups or accounts."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeCreatePermanentPrivilege
+      value: ''
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63863
+      
+- name: "MEDIUM | V-63865 | AUDIT | The Create symbolic links user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeCreateSymbolicLinkPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63865
+
+- name: "MEDIUM | V-63865 | PATCH | The Create symbolic links user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeCreateSymbolicLinkPrivilege
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63865
+      
+- name: "MEDIUM | V-63887 | AUDIT | The Generate security audits user right must only be assigned to Local Service and Network Service."
+  debug: var=secedit_rules.Privilege_Rights.SeAuditPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63887
+
+- name: "MEDIUM | V-63887 | PATCH | The Generate security audits user right must only be assigned to Local Service and Network Service."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeAuditPrivilege
+      value: '*S-1-5-19,*S-1-5-20' #Local Service, Network Service
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63887
+      
+- name: "MEDIUM | V-63889 | AUDIT | The Impersonate a client after authentication user right must only be assigned to Administrators, Service, Local Service, and Network Service."
+  debug: var=secedit_rules.Privilege_Rights.SeImpersonatePrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63889
+
+- name: "MEDIUM | V-63889 | PATCH | The Impersonate a client after authentication user right must only be assigned to Administrators, Service, Local Service, and Network Service."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeImpersonatePrivilege
+      value: '*S-1-5-19,*S-1-5-20,*S-1-5-32-544,*S-1-5-6' #Local Service, Network Service, Administrators, Service
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63889
+      
+- name: "MEDIUM | V-63891 | AUDIT | The Increase scheduling priority user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeIncreaseBasePriorityPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63891
+
+- name: "MEDIUM | V-63891 | PATCH | The Increase scheduling priority user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeIncreaseBasePriorityPrivilege
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63891
+      
+      - name: "MEDIUM | V-63917 | AUDIT | The Load and unload device drivers user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeLoadDriverPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63917
+
+- name: "MEDIUM | V-63917 | PATCH | The Load and unload device drivers user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeLoadDriverPrivilege
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63917
+      
+- name: "MEDIUM | V-63925 | AUDIT | The Lock pages in memory user right must not be assigned to any groups or accounts."
+  debug: var=secedit_rules.Privilege_Rights.SeLockMemoryPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63925
+
+- name: "MEDIUM | V-63925 | PATCH | The Lock pages in memory user right must not be assigned to any groups or accounts."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeLockMemoryPrivilege
+      value: ''
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63925
+      
+- name: "MEDIUM | V-63927 | AUDIT | The Manage auditing and security log user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeSecurityPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63927
+
+- name: "MEDIUM | V-63927 | PATCH | The Manage auditing and security log user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeSecurityPrivilege
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63927
+      
+- name: "MEDIUM | V-63931 | AUDIT | The Modify firmware environment values user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeSystemEnvironmentPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63931
+
+- name: "MEDIUM | V-63931 | PATCH | The Modify firmware environment values user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeSystemEnvironmentPrivilege
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63931
+      
+- name: "MEDIUM | V-63933 | AUDIT | The Perform volume maintenance tasks user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeManageVolumePrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63933
+
+- name: "MEDIUM | V-63933 | PATCH | The Perform volume maintenance tasks user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeManageVolumePrivilege
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63933
+      
+- name: "MEDIUM | V-63935 | AUDIT | The Profile single process user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeProfileSingleProcessPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63935
+
+- name: "MEDIUM | V-63935 | PATCH | The Profile single process user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeProfileSingleProcessPrivilege
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63935
+      
+- name: "MEDIUM | V-63939 | AUDIT | The Restore files and directories user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeRestorePrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63939
+
+- name: "MEDIUM | V-63939 | PATCH | The Restore files and directories user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeRestorePrivilege
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63939
+      
+- name: "MEDIUM | V-63941 | AUDIT | The Take ownership of files or other objects user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeTakeOwnershipPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-63941
+
+- name: "MEDIUM | V-63941 | PATCH | The Take ownership of files or other objects user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeTakeOwnershipPrivilege
+      value: '*S-1-5-32-544' #Administrators
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-63941
+      
+- name: "MEDIUM | V-68817 | AUDIT | Command line data must be included in process creation events."
+  win_command: reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit\ /v ProcessCreationIncludeCmdLine_Enabled
+  register: prevented_process_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in prevented_process_audit.stderr and prevented_process_audit.stderr"
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-68817
+
+- name: "MEDIUM | V-68817 | PATCH | Command line data must be included in process creation events."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit\'
+      value: ProcessCreationIncludeCmdLine_Enabled
+      data: 0
+      datatype: dword
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-68817
+      
+      
+- name: "MEDIUM | V-71759 | AUDIT | The system will be configured to audit 'Logon/Logoff -> Account Lockout' failures."
+  win_shell: AuditPol /get /subcategory:"Account Lockout"
+  register: failure_account_lockout_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-71759
+
+- name: "MEDIUM | V-71759 | PATCH | The system will be configured to audit 'Logon/Logoff -> Account Lockout' failures."
+  win_shell: AuditPol /set /subcategory:"Account Lockout" /failure:enable
+  when: "'Failure' not in failure_account_lockout_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-71759
+      
+- name: "MEDIUM | V-71761 | AUDIT | The system must be configured to audit 'Policy Change -> Authorization Policy Change' successes."
+  win_shell: "AuditPol /get /subcategory:'Authorization Policy Change'"
+  register: auth_policy_successes_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat2
+      - medium
+      - audit
+      - V-71761
+
+- name: "MEDIUM | V-71761 | PATCH | The system must be configured to audit 'Policy Change -> Authorization Policy Change' successes."
+  win_shell: AuditPol /set /subcategory:"Authorization Policy Change" /success:enable
+  when: "'Success' not in auth_policy_successes_audit.stdout"
+  tags:
+      - cat2
+      - medium
+      - patch
+      - V-71761
+      
+      
+      

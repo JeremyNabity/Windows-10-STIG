@@ -1,0 +1,404 @@
+- name: "HIGH | V-63325 | AUDIT | The Windows Installer Always install with elevated privileges option must be disabled."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\Installer\ /v AlwaysInstallElevated
+  register: install_elevated_disabled_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in install_elevated_disabled_audit.stderr and install_elevated_disabled_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63325
+
+- name: "HIGH | V-63325 | PATCH | The Windows Installer Always install with elevated privileges option must be disabled."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\Installer\'
+      value: AlwaysInstallElevated
+      data: 0
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63325
+      
+- name: "HIGH | V-63335 | AUDIT | The Windows Remote Management (WinRM) client must not use Basic authentication."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\WinRM\Client /v AllowBasic
+  register: winrm_client_basic_auth_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in winrm_client_basic_auth_audit.stderr and winrm_client_basic_auth_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63335
+      
+- name: "HIGH | V-63335 | PATCH | The Windows Remote Management (WinRM) client must not use Basic authentication."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\WinRM\Client'
+      value: AllowBasic
+      data: 0
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63335
+
+- name: "HIGH | V-63335 | AUDIT | The Windows Remote Management (WinRM) service must not use Basic authentication."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\WinRM\Service\ /v AllowBasic
+  register: winrm_service_basic_auth_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in winrm_service_basic_auth_audit.stderr and winrm_service_basic_auth_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63335
+
+- name: "HIGH | V-63347 | PATCH | The Windows Remote Management (WinRM) service must not use Basic authentication."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\WinRM\Service\'
+      value: AllowBasic
+      data: 0
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63347 
+      
+- name: "HIGH | V-63353 | AUDIT | Local volumes must be formatted using NTFS."
+  win_shell: Get-Volume | Select-Object -Property DriveLetter,FileSystem
+  register: local_volume_format_aduit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63353
+      
+- name: "HIGH | V-63361 | AUDIT | Only accounts responsible for the administration of a system must have Administrator rights on the system."
+  win_command: net localgroup Administrators
+  register: administrators_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63361
+      
+- name: "HIGH | V-63651 | AUDIT | Solicited Remote Assistance must not be allowed."
+  win_command: reg query \"HKLM\Software\Policies\Microsoft\Windows NT\Terminal Services\" /v fAllowToGetHelp
+  register: solicited_remote_assistance_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in solicited_remote_assistance_audit.stderr and solicited_remote_assistance_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63651
+
+- name: "HIGH | V-63651 | PATCH | Solicited Remote Assistance must not be allowed."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows NT\Terminal Services'
+      value: fAllowToGetHelp
+      data: 0
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63651
+      
+- name: "HIGH | V-63667 | AUDIT | Autoplay must be turned off for non-volume devices."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\Explorer\ /v NoAutoplayfornonVolume
+  register: autoplay_nonvolume_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in autoplay_nonvolume_audit.stderr and autoplay_nonvolume_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63667
+
+- name: "HIGH | V-63667 | PATCH | Autoplay must be turned off for non-volume devices."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\Explorer\'
+      value: NoAutoplayfornonVolume
+      data: 1
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63667
+      
+- name: "HIGH | V-63671 | AUDIT | The default Autorun behavior must be configured to prevent Autorun commands."
+  win_command: reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\ /v NoAutorun
+  register: autorun_prevent_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in autorun_prevent_audit.stderr and autorun_prevent_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63671
+
+- name: "HIGH | V-63671 | PATCH | The default Autorun behavior must be configured to prevent Autorun commands."
+  win_regedit:
+      key: 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\'
+      value: NoAutorun
+      data: 1
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63671
+
+- name: "HIGH | V-63673 | AUDIT | Autoplay must be disabled for all drives."
+  win_command: reg query HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\ /v NoDriveTypeAutoRun 
+  register: autoplay_disabled_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in autoplay_disabled_audit.stderr and autoplay_disabled_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63673
+
+- name: "HIGH | V-63673 | PATCH | Autoplay must be disabled for all drives."
+  win_regedit:
+      key: 'HKLM:\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\'
+      value: NoDriveTypeAutoRun
+      data: 255
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63673
+      
+- name: "HIGH | V-63739 | AUDIT | Anonymous SID/Name translation will not be allowed."
+  debug: var=secedit_rules.System_Access.LSAAnonymousNameLookup
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63739
+
+- name: "HIGH | V-63739 | PATCH | Anonymous SID/Name translation will not be allowed."
+  win_secedit:
+      category: 'System Access'
+      key: LSAAnonymousNameLookup
+      value: '0'
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63739
+
+- name: "HIGH | V-63745 | AUDIT | Anonymous enumeration of SAM accounts must not be allowed."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\Lsa\ /v RestrictAnonymousSAM
+  register: anonymous_enum_sam_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in anonymous_enum_sam_audit.stderr and anonymous_enum_sam_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63745
+
+- name: "HIGH | V-63745 | PATCH | Anonymous enumeration of SAM accounts must not be allowed."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Control\Lsa\'
+      value: RestrictAnonymousSAM
+      data: 1
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63745
+
+- name: "HIGH | V-63749 | AUDIT | Anonymous enumeration of shares will be restricted."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\Lsa /v RestrictAnonymous
+  register: anon_shares_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in anon_shares_audit.stderr and anon_shares_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63749
+
+- name: "HIGH | V-63749 | PATCH | Anonymous enumeration of shares will be restricted."
+  win_regedit: 
+      key: 'HKLM:\System\CurrentControlSet\Control\Lsa'
+      value: RestrictAnonymous
+      data: 1
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63749
+
+- name: "HIGH | V-63759 | AUDIT | Anonymous access to Named Pipes and Shares must be restricted."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\LanManServer\Parameters\ /v RestrictNullSessAccess
+  register: anon_access_pipes_shares_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in anon_access_pipes_shares_audit.stderr and anon_access_pipes_shares_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63759
+
+- name: "HIGH | V-63759 | PATCH | Anonymous access to Named Pipes and Shares must be restricted."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters\'
+      value: RestrictNullSessAccess
+      data: 1
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63759
+
+- name: "HIGH | V-63797 | AUDIT | The system must be configured to prevent the storage of the LAN Manager hash of passwords."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\Lsa\ /v NoLMHash
+  register: prevent_lanman_storage_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in prevent_lanman_storage_audit.stderr and prevent_lanman_storage_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63797
+
+- name: "HIGH | V-63797 | PATCH | The system will be configured to prevent the storage of the LAN Manager hash of passwords."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Control\Lsa'
+      value: NoLMHash
+      data: 1
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63797
+
+- name: "HIGH | V-63801 | AUDIT | The LanMan authentication level must be set to send NTLMv2 response only, and to refuse LM and NTLM."
+  win_command: reg query HKLM\System\CurrentControlSet\Control\Lsa /v LMCompatibilityLevel
+  register: lanMan_authentication_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in lanMan_authentication_audit.stderr and lanMan_authentication_audit.stderr"
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63801
+
+- name: "HIGH | V-63801 | PATCH | The LanMan authentication level must be set to send NTLMv2 response only, and to refuse LM and NTLM."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Control\Lsa'
+      value: LMCompatibilityLevel
+      data: 5
+      datatype: dword
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63801
+      
+- name: "HIGH | V-63847 | AUDIT | The Act as part of the operating system user right must not be assigned to any groups or accounts."
+  debug: var=secedit_rules.Privilege_Rights.SeTcbPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63847
+
+- name: "HIGH | V-63847 | PATCH | The Act as part of the operating system user right must not be assigned to any groups or accounts."
+  win_secedit: 
+      category: 'Privilege Rights'
+      key: SeTcbPrivilege
+      value: ''
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63847
+      
+- name: "HIGH | V-63859 | AUDIT | The Create a token object user right must not be assigned to any groups or accounts."
+  debug: var=secedit_rules.Privilege_Rights.SeCreateTokenPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63859
+
+- name: "HIGH | V-63859 | PATCH | The Create a token object user right must not be assigned to any groups or accounts."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeCreateTokenPrivilege
+      value: ''
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63859
+      
+- name: "HIGH | V-63869 | AUDIT | The Debug programs user right must only be assigned to the Administrators group."
+  debug: var=secedit_rules.Privilege_Rights.SeDebugPrivilege
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat1
+      - high
+      - audit
+      - V-63869
+
+# Well-known security identifiers in Windows operating systems
+# https://support.microsoft.com/en-us/kb/243330
+- name: "HIGH | V-63869 | PATCH | The Debug programs user right must only be assigned to the Administrators group."
+  win_secedit:
+      category: 'Privilege Rights'
+      key: SeDebugPrivilege
+      value: '*S-1-5-32-544' # Administrators group
+  register: secedit
+  failed_when: "secedit.failed is defined and 'This host is joined to a Domain Controller' not in secedit.msg"
+  tags:
+      - cat1
+      - high
+      - patch
+      - V-63869
+      
