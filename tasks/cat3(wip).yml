@@ -1,0 +1,320 @@
+- name: "LOW | V-63359 | AUDIT | Outdated or unused accounts must be removed from the system or disabled."
+  script: v63359.ps1
+  register: outdated_accounts_audit
+  check_mode: no
+  changed_when: no
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63359
+      
+- name: "LOW | V-63563 | AUDIT | The system must be configured to prevent Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF) generated routes."
+  win_command: reg query HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\ /v EnableICMPRedirect
+  register: prevent_icmp_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in prevent_icmp_audit.stderr and prevent_icmp_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63563
+
+- name: "LOW | V-63563 | PATCH | The system must be configured to prevent Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF) generated routes."
+  win_regedit:
+      key: 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\'
+      value: EnableICMPRedirect
+      data: 0
+      datatype: dword
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63563
+      
+- name: "LOW | V-63567 | AUDIT | The system must be configured to ignore NetBIOS name release requests except from WINS servers."
+  win_command: reg query HKLM\SYSTEM\CurrentControlSet\Services\Netbt\Parameters /v NoNameReleaseOnDemand
+  register: name_release_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in name_release_audit.stderr and name_release_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63567
+
+- name: "LOW | V-63567 | PATCH | The system must be configured to ignore NetBIOS name release requests except from WINS servers."
+  win_regedit:
+      key: 'HKLM:\SYSTEM\CurrentControlSet\Services\Netbt\Parameters'
+      value: NoNameReleaseOnDemand
+      data: 1
+      datatype: dword
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63567
+      
+- name: "LOW | V-63653 | AUDIT | The computer account password will not be prevented from being reset."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\Netlogon\Parameters /v DisablePasswordChange
+  register: disable_password_change_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in disable_password_change_audit.stderr and disable_password_change_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63653
+
+- name: "LOW | V-63653 | PATCH | The computer account password will not be prevented from being reset."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Services\Netlogon\Parameters'
+      value: DisablePasswordChange
+      data: 0
+      datatype: dword
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63653
+      
+- name: "LOW | V-63659 | AUDIT | The setting to allow Microsoft accounts to be optional for modern style apps must be enabled."
+  win_command: reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v MSAOptional
+  register: modern_style_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in modern_style_audit.stderr and modern_style_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63659
+
+- name: "LOW | V-63659 | PATCH | The setting to allow Microsoft accounts to be optional for modern style apps must be enabled."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
+      value: MSAOptional
+      data: 1
+      datatype: dword
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63659
+
+- name: "LOW | V-63661 | AUDIT | The maximum age for machine account passwords must be configured to 30 days or less."
+  win_command: reg query HKLM\System\CurrentControlSet\Services\Netlogon\Parameters /v MaximumPasswordAge
+  register: max_password_age_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in max_password_age_audit.stderr and max_password_age_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63661
+
+- name: "LOW | V-63661 | PATCH | The maximum age for machine account passwords must be configured to 30 days or less."
+  win_regedit:
+      key: 'HKLM:\System\CurrentControlSet\Services\Netlogon\Parameters'
+      value: MaximumPasswordAge
+      data: 30
+      datatype: dword
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63661
+      
+- name: "LOW | V-63663 | AUDIT | The Application Compatibility Program Inventory must be prevented from collecting data and sending the information to Microsoft."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\AppCompat /v DisableInventory
+  register: ACPI_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in ACPI_audit.stderr and ACPI_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63663
+
+- name: "LOW | V-63663 | PATCH | The Application Compatibility Program Inventory must be prevented from collecting data and sending the information to Microsoft."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\AppCompat'
+      value: DisableInventory
+      data: 1
+      datatype: dword
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63663
+      
+- name: "LOW | V-63681 | AUDIT | The Windows dialog box title for the legal banner must be configured."
+  win_command: reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\ /v LegalNoticeCaption
+  register: banner_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in banner_audit.stderr and banner_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63681
+
+- name: "LOW | V-63681 | PATCH | The Windows dialog box title for the legal banner must be configured."
+  win_regedit:
+      key: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\'
+      value: LegalNoticeCaption
+      data: "Notice and Consent Banner"
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63681
+      
+- name: "LOW | V-63687 | AUDIT | Caching of logon credentials must be limited."
+  win_command: reg query \"HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\" /v CachedLogonsCount
+  register: cached_logons_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in cached_logons_audit.stderr and cached_logons_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63687
+
+- name: "LOW | V-63687 | PATCH | Caching of logon credentials must be limited."
+  win_regedit:
+      key: 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon'
+      value: CachedLogonsCount
+      data: 0
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63687
+
+- name: "LOW | V-63691 | AUDIT | Turning off File Explorer heap termination on corruption must be disabled."
+  win_command: reg query HKLM\Software\Policies\Microsoft\Windows\Explorer /v NoHeapTerminationOnCorruption
+  register: heap_termination_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in heap_termination_audit.stderr and heap_termination_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63691
+
+- name: "LOW | V-63691 | PATCH | Turning off File Explorer heap termination on corruption must be disabled."
+  win_regedit:
+      key: 'HKLM:\Software\Policies\Microsoft\Windows\Explorer'
+      value: NoHeapTerminationOnCorruption
+      data: 0
+      datatype: dword
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63691
+      
+- name: "LOW | V-63715 | AUDIT | The amount of idle time required before suspending a session must be configured to 15 minutes or less."
+  win_command: reg query HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters /v autodisconnect
+  register: auto_disconnect_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in auto_disconnect_audit.stderr and auto_disconnect_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63715
+
+- name: "LOW | V-63715 | PATCH | The amount of idle time required before suspending a session must be configured to 15 minutes or less."
+  win_regedit:
+      key: 'HKLM:\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters'
+      value: autodisconnect
+      data: 0x0000000f
+      datatype: dword
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63715
+      
+- name: "LOW | V-63815 | AUDIT | The default permissions of global system objects must be increased."
+  win_command: reg query \"HKLM\System\CurrentControlSet\Control\Session Manager\" /v ProtectionMode
+  register: protection_mode_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in protection_mode_audit.stderr and protection_mode_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63815
+
+- name: "LOW | V-63815 | PATCH | The default permissions of global system objects must be increased."
+  win_regedit:
+      key: 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon'
+      value: ProtectionMode
+      data: 1
+      datatype: dword
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63815
+      
+- name: "LOW | V-63839 | AUDIT | Toast notifications to the lock screen must be turned off."
+  win_command: reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications\ /v NoToastApplicationNotificationOnLockScreen
+  register: toast_notifications_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in toast_notifications_audit.stderr and toast_notifications_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-63839
+
+- name: "LOW | V-63839 | PATCH | Toast notifications to the lock screen must be turned off."
+  win_regedit:
+      key: 'HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications\'
+      value: NoToastApplicationNotificationOnLockScreen
+      data: 1
+      datatype: dword
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-63839
+      
+- name: "LOW | V-71771 | AUDIT | Microsoft consumer experiences must be turned off."
+  win_command: reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\CloudContent\ /v DisableWindowsConsumerFeatures
+  register: consumer_experiences_audit
+  check_mode: no
+  changed_when: no
+  failed_when: "reg_not_found not in consumer_experiences_audit.stderr and consumer_experiences_audit.stderr"
+  tags:
+      - cat3
+      - low
+      - audit
+      - V-71771
+
+- name: "LOW | V-71771 | PATCH | Microsoft consumer experiences must be turned off."
+  win_regedit:
+      key: 'HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent\'
+      value: DisableWindowsConsumerFeatures
+      data: 1
+      datatype: dword
+  tags:
+      - cat3
+      - low
+      - patch
+      - V-71771
